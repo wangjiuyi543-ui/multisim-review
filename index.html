@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Multisim 仿真客观题复习讲解</title>
+<style>
+:root{
+  --bg:#f5f7fb; --card:#ffffff; --text:#172033; --muted:#657087;
+  --primary:#3157d5; --primary2:#6c7df0; --green:#16845b; --orange:#c96b17;
+  --red:#c43f4f; --line:#e4e8f0; --soft:#eef2ff; --shadow:0 10px 28px rgba(35,50,90,.09);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0; font-family:"PingFang SC","Microsoft YaHei",system-ui,sans-serif;
+  color:var(--text); background:var(--bg); line-height:1.72;
+}
+.hero{
+  background:linear-gradient(135deg,#192b70 0%,#3157d5 55%,#7084ef 100%);
+  color:#fff; padding:56px 20px 48px;
+}
+.hero-inner{max-width:1120px;margin:auto}
+.hero h1{font-size:clamp(30px,5vw,50px);margin:0 0 12px;line-height:1.18}
+.hero p{max-width:800px;margin:8px 0;color:#eef2ff;font-size:17px}
+.hero-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:28px;max-width:850px}
+.hero-stat{background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.18);border-radius:14px;padding:15px}
+.hero-stat b{display:block;font-size:22px}.hero-stat span{font-size:13px;color:#e4eaff}
+.toolbar{
+  position:sticky;top:0;z-index:20;background:rgba(255,255,255,.93);
+  backdrop-filter:blur(12px);border-bottom:1px solid var(--line)
+}
+.toolbar-inner{max-width:1120px;margin:auto;padding:10px 18px;display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+button{
+  border:0;border-radius:10px;padding:10px 14px;font-size:14px;cursor:pointer;
+  background:#edf1f7;color:var(--text);font-weight:650
+}
+button.primary{background:var(--primary);color:#fff}
+button:hover{filter:brightness(.97)}
+.progress{height:4px;background:#e8ebf3;flex:1;min-width:150px;border-radius:4px;overflow:hidden}
+.progress>div{height:100%;width:0;background:linear-gradient(90deg,var(--primary),#8a6ce8)}
+main{max-width:1120px;margin:auto;padding:30px 18px 70px}
+.layout{display:grid;grid-template-columns:235px minmax(0,1fr);gap:24px}
+nav.side{
+  position:sticky;top:72px;align-self:start;background:var(--card);border:1px solid var(--line);
+  border-radius:16px;padding:14px;box-shadow:var(--shadow)
+}
+nav.side a{display:block;color:var(--muted);text-decoration:none;padding:9px 10px;border-radius:9px;font-size:14px}
+nav.side a:hover{background:var(--soft);color:var(--primary)}
+.content section{scroll-margin-top:80px;margin-bottom:34px}
+.section-title{display:flex;gap:12px;align-items:center;margin-bottom:14px}
+.section-title .num{
+  width:42px;height:42px;border-radius:12px;background:var(--primary);color:#fff;
+  display:grid;place-items:center;font-weight:800
+}
+.section-title h2{margin:0;font-size:26px}
+.section-intro{color:var(--muted);margin:-4px 0 18px}
+.exam-map{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.map-card,.card,.quick,.quiz-box{
+  background:var(--card);border:1px solid var(--line);border-radius:16px;box-shadow:var(--shadow)
+}
+.map-card{padding:18px}
+.map-card h3{margin:0 0 8px}.map-card p{margin:0;color:var(--muted)}
+.card{padding:0;overflow:hidden;margin:12px 0}
+.card-head{display:flex;align-items:center;gap:10px;padding:16px 18px;border-bottom:1px solid var(--line)}
+.qno{
+  min-width:38px;height:30px;border-radius:9px;background:var(--soft);color:var(--primary);
+  display:grid;place-items:center;font-weight:800
+}
+.card-head h3{font-size:18px;margin:0;flex:1}
+.badge{font-size:12px;padding:4px 8px;border-radius:999px;font-weight:700}
+.badge.mem{background:#fff1e4;color:var(--orange)}
+.badge.under{background:#e8f7f0;color:var(--green)}
+.card-body{padding:16px 18px 18px}
+.exam-answer{
+  border-left:4px solid var(--primary);background:var(--soft);padding:11px 13px;
+  border-radius:0 10px 10px 0;font-weight:700;margin:0 0 12px
+}
+.explain{color:#35405a}
+.explain p{margin:8px 0}
+.trap{background:#fff7e9;border:1px solid #f2dfb9;padding:10px 12px;border-radius:10px;color:#7b531f;margin-top:10px}
+.key{color:var(--primary);font-weight:800}
+.formula{
+  font-family:Cambria,"Times New Roman",serif;background:#f7f8fb;border:1px solid var(--line);
+  border-radius:10px;padding:10px 12px;text-align:center;font-size:20px;margin:10px 0
+}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.compare{width:100%;border-collapse:collapse;background:#fff;border-radius:12px;overflow:hidden}
+.compare th,.compare td{border:1px solid var(--line);padding:10px;text-align:left}
+.compare th{background:#f1f4fb}
+.diagram{
+  padding:12px;border:1px solid var(--line);border-radius:12px;background:#fafbfe;margin:12px 0;
+  overflow:auto
+}
+svg text{font-family:"Microsoft YaHei",sans-serif}
+.quick{padding:20px;margin-top:16px}
+.quick h3{margin-top:0}
+.quick-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.quick-item{padding:12px;background:#f7f9fd;border:1px solid var(--line);border-radius:10px}
+.quiz-box{padding:20px}
+.quiz-q{padding:15px 0;border-bottom:1px solid var(--line)}
+.quiz-q:last-child{border-bottom:0}
+.quiz-q h4{margin:0 0 9px}
+.option{display:block;margin:7px 0;padding:9px 11px;background:#f7f8fb;border-radius:9px;cursor:pointer}
+.option:hover{background:#eef2ff}
+.result{margin-top:15px;padding:14px;border-radius:12px;background:#edf7f1;display:none}
+.source-note{font-size:13px;color:var(--muted);margin-top:28px}
+.focus .explain,.focus .trap,.focus .diagram,.focus .section-intro{display:none}
+.focus .card-body{padding-bottom:12px}
+@media (max-width:850px){
+  .layout{grid-template-columns:1fr} nav.side{position:static;display:none}
+  .exam-map,.hero-grid{grid-template-columns:1fr}.two-col,.quick-grid{grid-template-columns:1fr}
+}
+@media print{
+  .toolbar,nav.side,#quiz{display:none!important} body{background:#fff}
+  .hero{padding:25px 15px}.layout{display:block}.card,.map-card,.quick{box-shadow:none;break-inside:avoid}
+  main{max-width:none;padding:18px}.explain,.trap,.diagram{display:block!important}
+}
+</style>
+</head>
+<body>
+<header class="hero">
+  <div class="hero-inner">
+    <h1>Multisim 仿真客观题复习讲解</h1>
+    <p>不是把整门仿真课重新学一遍，而是把总结 PPT 的 25 个考点讲到“能理解、能判断、能选对”。适合没听过虚拟仿真课、考前集中补齐。</p>
+    <div class="hero-grid">
+      <div class="hero-stat"><b>25</b><span>个总结题逐条覆盖</span></div>
+      <div class="hero-stat"><b>6 组</b><span>按考试逻辑重新分类</span></div>
+      <div class="hero-stat"><b>15 题</b><span>末尾自测即时判分</span></div>
+    </div>
+  </div>
+</header>
+
+<div class="toolbar">
+  <div class="toolbar-inner">
+    <button class="primary" onclick="toggleFocus()">切换：重点速记模式</button>
+    <button onclick="window.print()">打印 / 导出 PDF</button>
+    <button onclick="document.getElementById('quiz').scrollIntoView()">跳到自测</button>
+    <span style="font-size:13px;color:#657087">阅读进度</span>
+    <div class="progress"><div id="bar"></div></div>
+  </div>
+</div>
+
+<main>
+<div class="layout">
+<nav class="side">
+  <a href="#strategy">复习策略</a>
+  <a href="#operations">1—12 基本操作</a>
+  <a href="#concepts">13—18 基本概念</a>
+  <a href="#analysis">19—20 仿真分析</a>
+  <a href="#lc">21—22 电感与电容</a>
+  <a href="#bode">23—24 Bode Plotter</a>
+  <a href="#library">25 元器件库</a>
+  <a href="#quick">考前速记</a>
+  <a href="#quiz">客观题自测</a>
+</nav>
+
+<div class="content">
+
+<section id="strategy">
+  <div class="section-title"><div class="num">0</div><h2>先明确考试要到什么程度</h2></div>
+  <p class="section-intro">这部分只顺带考几个客观题，所以目标不是“会完整使用 Multisim”，而是建立最小理解框架。</p>
+  <div class="exam-map">
+    <div class="map-card"><h3>操作题：记路径</h3><p>1—12 主要认菜单、工具和仪表。看到 Place、Properties、Wire、Plot Results 要能对应功能。</p></div>
+    <div class="map-card"><h3>概念题：抓对比</h3><p>13—18 主要考 CAD/CAE/EDA、ANSI/DIN、虚拟/真实、平坦式/层次式。</p></div>
+    <div class="map-card"><h3>规律题：懂公式</h3><p>19—24 只要理解仿真方法、AC Sweep、感抗容抗、幅频相频即可。</p></div>
+  </div>
+</section>
+
+<section id="operations">
+  <div class="section-title"><div class="num">1</div><h2>基本操作：1—12</h2></div>
+  <p class="section-intro">这一组别钻软件版本差异，考试通常按总结 PPT 的菜单名称出题。</p>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">1</div><h3>绘制一个简单电阻电路</h3><span class="badge mem">记流程</span></div>
+    <div class="card-body">
+      <div class="exam-answer">Place 放置电阻、电源和接地；Wire 将它们连接。</div>
+      <div class="explain"><p>把 Multisim 想成“虚拟实验台”：先拿元件，再接线，最后运行。<span class="key">接地 Ground</span> 是零电位参考，不是装饰。</p></div>
+      <div class="diagram">
+        <svg width="500" height="120" viewBox="0 0 500 120">
+          <circle cx="70" cy="60" r="26" fill="none" stroke="#3157d5" stroke-width="3"/>
+          <text x="56" y="67" font-size="18">10V</text>
+          <line x1="96" y1="60" x2="190" y2="60" stroke="#172033" stroke-width="3"/>
+          <rect x="190" y="45" width="100" height="30" rx="4" fill="#dce5ff" stroke="#3157d5" stroke-width="3"/>
+          <text x="222" y="66" font-size="16">1 kΩ</text>
+          <line x1="290" y1="60" x2="400" y2="60" stroke="#172033" stroke-width="3"/>
+          <line x1="400" y1="60" x2="400" y2="95" stroke="#172033" stroke-width="3"/>
+          <line x1="375" y1="95" x2="425" y2="95" stroke="#172033" stroke-width="3"/>
+          <line x1="383" y1="103" x2="417" y2="103" stroke="#172033" stroke-width="3"/>
+          <line x1="392" y1="111" x2="408" y2="111" stroke="#172033" stroke-width="3"/>
+        </svg>
+      </div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">2</div><h3>添加新元件</h3><span class="badge mem">记菜单</span></div>
+    <div class="card-body">
+      <div class="exam-answer">Place → Component Browser → 搜索元件 → 放到原理图。</div>
+      <div class="explain"><p>Component Browser 就是元件库的搜索窗口。通常按“元件组 Group—元件族 Family—具体元件 Component”查找。</p></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">3</div><h3>查看元件属性</h3><span class="badge mem">记入口</span></div>
+    <div class="card-body">
+      <div class="exam-answer">选中元件，打开 Properties；也可右击元件。</div>
+      <div class="explain"><p>属性里通常能看到数值、编号、模型、封装等。双击元件本质上也是打开属性。</p></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">4</div><h3>导入其他电路图</h3><span class="badge mem">记菜单</span></div>
+    <div class="card-body">
+      <div class="exam-answer">File → Import → 选择需要导入的电路文件。</div>
+      <div class="explain"><p>这只是识别“导入”属于 File 菜单，不需要掌握文件兼容和版本转换。</p></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">5</div><h3>查看元件连接关系</h3><span class="badge under">理解一下</span></div>
+    <div class="card-body">
+      <div class="exam-answer">按题库表述：使用 Wire 工具，或通过 Place 相关功能查看连接。</div>
+      <div class="explain"><p>真正判断“是否电气连接”，主要看<span class="key">导线、连接节点圆点和网络名称</span>。两根线只是在图上交叉，不一定连通。</p></div>
+      <div class="trap">客观题若完全照总结 PPT 出，就选择 Wire / Place；不要因为软件细节去和题库答案较劲。</div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">6</div><h3>设置元件数值</h3><span class="badge mem">记入口</span></div>
+    <div class="card-body">
+      <div class="exam-answer">选中元件，在 Properties 中修改参数。</div>
+      <div class="explain"><p>例如把电阻设为 1 kΩ、电容设为 1 μF。注意 M 是兆，m 是毫，大小写不同。</p></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">7</div><h3>创建元件库文件</h3><span class="badge mem">记工具名</span></div>
+    <div class="card-body">
+      <div class="exam-answer">使用 Component Editor 创建自定义元件，并保存到元件库。</div>
+      <div class="explain"><p>Component Editor 相当于“元件制作器”，把符号、引脚、模型和封装等信息组合成一个可复用元件。</p></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">8</div><h3>添加万用表</h3><span class="badge mem">记仪表</span></div>
+    <div class="card-body">
+      <div class="exam-answer">Place → Measurement → Multimeter 或 Voltmeter。</div>
+      <div class="explain"><p>电压表测两点间电压，要<span class="key">并联</span>在被测两端；理想电压表内阻很大。</p></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">9</div><h3>设置万用表参数</h3><span class="badge mem">记档位</span></div>
+    <div class="card-body">
+      <div class="exam-answer">在 Properties 中选择电压档、电流档、电阻档以及 AC / DC。</div>
+      <div class="explain"><p>AC 表示交流测量，DC 表示直流测量。题目一般只考“有哪些档位”，不考真实仪表误差。</p></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">10</div><h3>添加电流表</h3><span class="badge under">容易错接</span></div>
+    <div class="card-body">
+      <div class="exam-answer">Place → Measurement → Current Meter 或 Ammeter。</div>
+      <div class="explain"><p>电流表必须与被测支路<span class="key">串联</span>，这样表中的电流就是支路电流。理想电流表内阻近似为 0。</p></div>
+      <div class="trap">电流表若并联在电源两端，近似造成短路；电压表若串联，近似造成断路。</div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">11</div><h3>导出 Probe 测量结果</h3><span class="badge mem">记路径</span></div>
+    <div class="card-body">
+      <div class="exam-answer">Simulate → Plot Results → Save。</div>
+      <div class="explain"><p>Probe 是探针，用来采集节点电压或支路电流；Plot Results 是把结果画出来和保存的窗口。</p></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">12</div><h3>把 Probe 结果与其他参数比较</h3><span class="badge under">理解图像</span></div>
+    <div class="card-body">
+      <div class="exam-answer">在 Plot Results 中把多个变量绘制到同一张图上。</div>
+      <div class="explain"><p>例如把输入电压和输出电压放在同一图里，就能比较幅值、相位和变化趋势。</p></div>
+    </div>
+  </article>
+</section>
+
+<section id="concepts">
+  <div class="section-title"><div class="num">2</div><h2>基本概念：13—18</h2></div>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">13</div><h3>EDA 技术的三个阶段</h3><span class="badge mem">纯背诵</span></div>
+    <div class="card-body">
+      <div class="exam-answer">20 世纪 70 年代 CAD；80 年代 CAE；90 年代以后 EDA。</div>
+      <div class="explain"><p>可理解为：从“计算机帮你画图”，发展到“帮你分析”，再发展到“自动化完成更完整的电子设计流程”。</p></div>
+      <div class="trap">速记：<b>70 CAD，80 CAE，90+ EDA</b>。</div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">14</div><h3>设计工具箱的三种文件类型</h3><span class="badge mem">纯背诵</span></div>
+    <div class="card-body">
+      <div class="exam-answer">工程文件、图页文件、支电路文件。</div>
+      <div class="explain"><p>工程文件管理整个项目；图页文件是一张原理图；支电路文件是可重复调用的子模块。</p></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">15</div><h3>ANSI 与 DIN</h3><span class="badge mem">对比记忆</span></div>
+    <div class="card-body">
+      <div class="exam-answer">ANSI 是美国标准；DIN 是欧洲标准；我国元件符号与欧洲模式相同或接近。</div>
+      <div class="explain"><p>最典型的视觉区别是电阻符号：美国常见锯齿形，欧洲常见矩形。</p></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">16</div><h3>虚拟元器件与真实器件</h3><span class="badge under">高频辨析</span></div>
+    <div class="card-body">
+      <div class="exam-answer">虚拟器件参数可自由设置、无额定值限制、不能直接用于 Ultiboard PCB；真实器件对应具体型号，参数和额定值受限制，可关联实际封装。</div>
+      <div class="two-col">
+        <table class="compare"><tr><th>虚拟器件</th></tr><tr><td>为仿真服务</td></tr><tr><td>参数可任意设置</td></tr><tr><td>通常无额定值限制</td></tr><tr><td>一般不能直接制 PCB</td></tr></table>
+        <table class="compare"><tr><th>真实器件</th></tr><tr><td>对应厂家型号</td></tr><tr><td>参数由型号决定</td></tr><tr><td>有额定值限制</td></tr><tr><td>可带实际封装信息</td></tr></table>
+      </div>
+      <div class="trap">题库中特别强调：电源虽然可能列在现实元器件栏中，但在仿真意义上属于虚拟元器件。</div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">17</div><h3>平坦式与层次式原理图</h3><span class="badge under">一定要分清</span></div>
+    <div class="card-body">
+      <div class="exam-answer">平坦式：同一逻辑层次，只是分布在多张图纸；层次式：存在顶层和子原理图的上下级关系。</div>
+      <div class="diagram">
+        <svg width="720" height="210" viewBox="0 0 720 210">
+          <text x="90" y="25" font-size="18" font-weight="700">平坦式：同一层多页</text>
+          <rect x="30" y="50" width="120" height="55" rx="8" fill="#eef2ff" stroke="#3157d5"/>
+          <rect x="180" y="50" width="120" height="55" rx="8" fill="#eef2ff" stroke="#3157d5"/>
+          <rect x="330" y="50" width="120" height="55" rx="8" fill="#eef2ff" stroke="#3157d5"/>
+          <text x="68" y="83">图页 1</text><text x="218" y="83">图页 2</text><text x="368" y="83">图页 3</text>
+          <line x1="150" y1="78" x2="180" y2="78" stroke="#172033" stroke-width="2"/>
+          <line x1="300" y1="78" x2="330" y2="78" stroke="#172033" stroke-width="2"/>
+          <text x="520" y="25" font-size="18" font-weight="700">层次式：上层管下层</text>
+          <rect x="535" y="45" width="120" height="50" rx="8" fill="#e9f7f0" stroke="#16845b"/>
+          <text x="566" y="76">顶层图</text>
+          <line x1="595" y1="95" x2="540" y2="135" stroke="#172033" stroke-width="2"/>
+          <line x1="595" y1="95" x2="650" y2="135" stroke="#172033" stroke-width="2"/>
+          <rect x="480" y="135" width="120" height="50" rx="8" fill="#f4fbf7" stroke="#16845b"/>
+          <rect x="610" y="135" width="100" height="50" rx="8" fill="#f4fbf7" stroke="#16845b"/>
+          <text x="505" y="166">子电路 1</text><text x="625" y="166">子电路 2</text>
+        </svg>
+      </div>
+      <div class="trap">口诀：<b>平坦式“同层分页”，层次式“顶层分块、下层实现”</b>。</div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">18</div><h3>离页连接器</h3><span class="badge under">条件题</span></div>
+    <div class="card-body">
+      <div class="exam-answer">用于不同图页之间的电气连接；图页须在同一电路文件夹中，连接器名称必须相同。</div>
+      <div class="explain"><p>它相当于把跨页的一根长导线改成“同名网络标签”。Page1 的 DATA 与 Page2 的 DATA，被软件视为同一个网络。</p></div>
+    </div>
+  </article>
+</section>
+
+<section id="analysis">
+  <div class="section-title"><div class="num">3</div><h2>仿真分析：19—20</h2></div>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">19</div><h3>Multisim 的两类仿真分析方法</h3><span class="badge under">理解用途</span></div>
+    <div class="card-body">
+      <div class="exam-answer">① 虚拟仪表直接测量；② 内置仿真分析法。</div>
+      <div class="two-col">
+        <div class="quick-item"><b>虚拟仪表法</b><br>像真实实验：放电压表、电流表、示波器，运行后直接读数。适合少量未知量。</div>
+        <div class="quick-item"><b>内置分析法</b><br>让软件统一计算：直流工作点、交流扫描、瞬态、傅里叶、噪声、失真等。适合复杂电路。</div>
+      </div>
+      <div class="trap">类比：虚拟仪表法是“拿仪器测”；内置分析法是“让软件批量算”。</div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">20</div><h3>AC Sweep 是什么</h3><span class="badge under">核心理解</span></div>
+    <div class="card-body">
+      <div class="exam-answer">交流扫频分析：在一定频率范围内计算电路的频率响应；直流源置零，交流源作为正弦信号，输出与输入同频。</div>
+      <div class="explain"><p>软件不是只测一个频率，而是让频率从低到高变化，逐点求输出，于是得到“响应随频率怎样变化”的曲线。</p></div>
+      <div class="formula">输入频率 f 改变 → 每个 f 都求一次稳态输出 → 得到幅频 / 相频特性</div>
+      <div class="trap">输出与输入<span class="key">同频</span>，改变的是幅值和相位，不是产生另一个频率。</div>
+    </div>
+  </article>
+</section>
+
+<section id="lc">
+  <div class="section-title"><div class="num">4</div><h2>电感与电容的频率特性：21—22</h2></div>
+  <p class="section-intro">这两题不要逐字硬背。记住两个公式，所有结论自然出来。</p>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">21</div><h3>电感的交流频率特性</h3><span class="badge under">公式推出</span></div>
+    <div class="card-body">
+      <div class="exam-answer">频率越高，感抗越大，电感电压越大，电流越小；电感通直流、阻交流，通低频、阻高频。</div>
+      <div class="formula">X<sub>L</sub> = ωL = 2πfL</div>
+      <div class="explain"><p>频率 f 增大，感抗 X<sub>L</sub> 就增大，所以电感对高频电流的阻碍更强。直流时 f=0，理想电感在稳态相当于短路。</p></div>
+      <div class="trap">最稳的记法：<b>电感“频率越高，越难通过”</b>。</div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">22</div><h3>电容的交流频率特性</h3><span class="badge under">公式推出</span></div>
+    <div class="card-body">
+      <div class="exam-answer">频率越高，容抗越小，电容电压越小，电流越大；电容通交流、隔直流，通高频、阻低频。</div>
+      <div class="formula">X<sub>C</sub> = 1/(ωC) = 1/(2πfC)</div>
+      <div class="explain"><p>频率 f 增大，容抗 X<sub>C</sub> 反而减小，所以高频更容易通过。直流时 f=0，容抗趋向无穷，理想电容在稳态相当于开路。</p></div>
+      <div class="trap">最稳的记法：<b>电容“频率越高，越容易通过”</b>。</div>
+    </div>
+  </article>
+
+  <div class="quick">
+    <h3>电感与电容一眼对照</h3>
+    <table class="compare">
+      <tr><th>元件</th><th>阻抗大小</th><th>频率升高</th><th>直流稳态</th><th>记忆</th></tr>
+      <tr><td>电感 L</td><td>X<sub>L</sub>=2πfL</td><td>感抗增大</td><td>短路</td><td>通低阻高</td></tr>
+      <tr><td>电容 C</td><td>X<sub>C</sub>=1/(2πfC)</td><td>容抗减小</td><td>开路</td><td>通高阻低</td></tr>
+    </table>
+  </div>
+</section>
+
+<section id="bode">
+  <div class="section-title"><div class="num">5</div><h2>Bode Plotter：23—24</h2></div>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">23</div><h3>Bode Plotter 的功能</h3><span class="badge under">看懂用途</span></div>
+    <div class="card-body">
+      <div class="exam-answer">产生宽频率范围的扫描信号，用于测量电路的幅频特性和相频特性。</div>
+      <div class="explain"><p>它关心的不是某一个时刻的波形，而是“电路对不同频率的信号分别有什么反应”。常用于滤波器、放大器等。</p></div>
+    </div>
+  </article>
+
+  <article class="card">
+    <div class="card-head"><div class="qno">24</div><h3>Bode Plotter 的两种模式</h3><span class="badge mem">术语对应</span></div>
+    <div class="card-body">
+      <div class="exam-answer">Magnitude：幅度比随频率变化；Phase：相位差随频率变化，单位为度。</div>
+      <div class="two-col">
+        <div class="quick-item"><b>Magnitude</b><br>输出相对输入被放大或衰减了多少。常用比值或 dB 表示。</div>
+        <div class="quick-item"><b>Phase</b><br>输出相对输入超前或滞后多少角度，单位 °。</div>
+      </div>
+      <div class="formula">Magnitude：|U<sub>out</sub>/U<sub>in</sub>|　　Phase：φ<sub>out</sub> − φ<sub>in</sub></div>
+      <div class="trap">英语直接对应：Magnitude = 大小；Phase = 相位。</div>
+    </div>
+  </article>
+</section>
+
+<section id="library">
+  <div class="section-title"><div class="num">6</div><h2>基本元器件库：25</h2></div>
+  <article class="card">
+    <div class="card-head"><div class="qno">25</div><h3>Basic 库包含什么</h3><span class="badge mem">列举题</span></div>
+    <div class="card-body">
+      <div class="exam-answer">基本虚拟器件、定额虚拟器件、电阻、电位器、电容、电感、变压器等。</div>
+      <div class="explain"><p>原课件还列有电解电容、可变电容、可变电感、开关等。客观题看到“基础无源器件和变压器”通常属于 Basic 库。</p></div>
+    </div>
+  </article>
+</section>
+
+<section id="quick">
+  <div class="section-title"><div class="num">✓</div><h2>考前 10 分钟速记</h2></div>
+  <div class="quick">
+    <div class="quick-grid">
+      <div class="quick-item"><b>操作路径</b><br>Place 放元件；Wire 连线；Properties 改参数；File/Import 导入；Plot Results/Save 导出。</div>
+      <div class="quick-item"><b>仪表连接</b><br>电压表并联，电流表串联；Probe 采集电压或电流。</div>
+      <div class="quick-item"><b>年代</b><br>70 年代 CAD，80 年代 CAE，90 年代以后 EDA。</div>
+      <div class="quick-item"><b>标准</b><br>ANSI 美国，DIN 欧洲，我国接近 DIN。</div>
+      <div class="quick-item"><b>原理图</b><br>平坦式同层多页；层次式顶层 + 子图；离页连接器必须同名。</div>
+      <div class="quick-item"><b>仿真方法</b><br>虚拟仪表直接读；内置分析批量算；AC Sweep 看频率响应。</div>
+      <div class="quick-item"><b>电感</b><br>X<sub>L</sub>=2πfL，频率越高阻碍越强，通低阻高，直流稳态短路。</div>
+      <div class="quick-item"><b>电容</b><br>X<sub>C</sub>=1/(2πfC)，频率越高越容易通过，通高阻低，直流稳态开路。</div>
+      <div class="quick-item"><b>Bode</b><br>Magnitude 看幅度比；Phase 看相位差。</div>
+      <div class="quick-item"><b>Basic 库</b><br>虚拟器件、电阻、电位器、电容、电感、开关、变压器等。</div>
+    </div>
+  </div>
+</section>
+
+<section id="quiz">
+  <div class="section-title"><div class="num">?</div><h2>15 道客观题自测</h2></div>
+  <div class="quiz-box" id="quizForm"></div>
+  <button class="primary" style="margin-top:14px" onclick="gradeQuiz()">提交并判分</button>
+  <button style="margin-top:14px" onclick="resetQuiz()">重新作答</button>
+  <div class="result" id="result"></div>
+</section>
+
+<p class="source-note">编写依据：Multisim 仿真复习题总结及原始第 1—6 章课件。内容按“客观题够用”的深度重新组织，软件版本的菜单细节以总结 PPT 的表述为准。</p>
+
+</div>
+</div>
+</main>
+
+<script>
+let focused=false;
+function toggleFocus(){
+  focused=!focused;
+  document.body.classList.toggle('focus',focused);
+  window.scrollTo({top:window.scrollY,behavior:'smooth'});
+}
+window.addEventListener('scroll',()=>{
+  const d=document.documentElement;
+  const p=(d.scrollTop)/(d.scrollHeight-d.clientHeight)*100;
+  document.getElementById('bar').style.width=p+'%';
+});
+
+const quiz=[
+ {q:'绘制简单电阻电路时，哪组操作最合理？',o:['先 Place 放元件，再 Wire 连线','先 Plot Results，再 Import','先 Fourier，再保存','只放电阻，不需要接地'],a:0,e:'基本流程是放元件—连线—接地—仿真。'},
+ {q:'修改电阻阻值通常进入哪个功能？',o:['Properties','Phase','Import','Bode Plotter'],a:0,e:'元件数值和模型参数主要在 Properties 中修改。'},
+ {q:'测量某支路电流，电流表应怎样连接？',o:['并联','串联','悬空','接地即可'],a:1,e:'支路电流要流经电流表，所以必须串联。'},
+ {q:'EDA 技术发展的正确顺序是？',o:['EDA→CAE→CAD','CAD→CAE→EDA','CAE→CAD→EDA','CAD→EDA→CAE'],a:1,e:'70 年代 CAD、80 年代 CAE、90 年代以后 EDA。'},
+ {q:'DIN 代表哪一类元器件符号标准？',o:['美国','欧洲','日本','国际单位制'],a:1,e:'ANSI 是美国标准，DIN 是欧洲标准。'},
+ {q:'下列关于虚拟器件的说法正确的是？',o:['一定对应具体厂家型号','参数不能修改','通常可自由设置参数','一定可直接用于 PCB 制版'],a:2,e:'虚拟器件主要为仿真服务，参数通常可自由设定。'},
+ {q:'“同一逻辑层次，只是分在多张图纸上”属于？',o:['层次式电路','平坦式电路','瞬态分析','交流扫描'],a:1,e:'平坦式就是同层多页。'},
+ {q:'离页连接器能正确连接不同图页的关键条件是？',o:['颜色相同','名称相同且在同一工程/文件夹','必须使用 DIN','必须串联电流表'],a:1,e:'同名连接器在同一工程中代表同一网络。'},
+ {q:'电路复杂、未知参数很多时，更适合使用？',o:['只看元件外观','内置仿真分析法','只用电压表','只用导线'],a:1,e:'内置分析可以系统计算多个节点和变量。'},
+ {q:'AC Sweep 主要分析什么？',o:['元件价格','频率特性','PCB 尺寸','直流电阻颜色'],a:1,e:'AC Sweep 是交流扫频，用来得到频率响应。'},
+ {q:'频率升高时，电感的感抗怎样变化？',o:['减小','不变','增大','先增大后减小'],a:2,e:'X_L=2πfL，与频率成正比。'},
+ {q:'频率升高时，电容的容抗怎样变化？',o:['增大','减小','不变','变成负电阻'],a:1,e:'X_C=1/(2πfC)，与频率成反比。'},
+ {q:'直流稳态下，理想电感相当于？',o:['开路','短路','电流源','电压表'],a:1,e:'直流稳态时 di/dt=0，电感电压为 0，相当于短路。'},
+ {q:'Bode Plotter 的 Phase 模式测量？',o:['两点幅度比','两点相位差','电阻值','直流工作点'],a:1,e:'Phase 模式显示相位差，通常以度表示。'},
+ {q:'下列通常属于 Basic 元器件库的是？',o:['电阻、电容、电感、变压器','仅微控制器','仅射频传输线','仅 TTL 芯片'],a:0,e:'Basic 库主要收纳基础虚拟器件和基础无源器件。'}
+];
+
+function renderQuiz(){
+ const f=document.getElementById('quizForm');
+ f.innerHTML=quiz.map((x,i)=>`
+ <div class="quiz-q">
+   <h4>${i+1}. ${x.q}</h4>
+   ${x.o.map((v,j)=>`<label class="option"><input type="radio" name="q${i}" value="${j}"> ${String.fromCharCode(65+j)}. ${v}</label>`).join('')}
+   <div id="exp${i}" style="display:none;margin-top:8px;color:#657087"></div>
+ </div>`).join('');
+}
+function gradeQuiz(){
+ let score=0, unanswered=0;
+ quiz.forEach((x,i)=>{
+   const checked=document.querySelector(`input[name=q${i}]:checked`);
+   const exp=document.getElementById(`exp${i}`);
+   if(!checked){unanswered++;exp.innerHTML='未作答。正确答案：'+String.fromCharCode(65+x.a)+'。'+x.e;}
+   else if(+checked.value===x.a){score++;exp.innerHTML='✓ 正确。'+x.e;}
+   else{exp.innerHTML='✗ 正确答案：'+String.fromCharCode(65+x.a)+'。'+x.e;}
+   exp.style.display='block';
+ });
+ const r=document.getElementById('result');
+ const rate=Math.round(score/quiz.length*100);
+ r.style.display='block';
+ r.innerHTML=`<b>得分：${score} / ${quiz.length}（${rate}%）</b><br>`+
+ (rate>=90?'已经达到这部分客观题的稳妥水平。':
+  rate>=70?'基本掌握，再复习错题对应的卡片。':
+  '建议先切换“重点速记模式”重新过一遍，再做一次。')+
+ (unanswered?`<br>另有 ${unanswered} 题未作答。`:'');
+ r.scrollIntoView({behavior:'smooth',block:'center'});
+}
+function resetQuiz(){
+ document.querySelectorAll('#quizForm input').forEach(x=>x.checked=false);
+ document.querySelectorAll('[id^=exp]').forEach(x=>x.style.display='none');
+ document.getElementById('result').style.display='none';
+}
+renderQuiz();
+</script>
+</body>
+</html>
